@@ -21,7 +21,7 @@ exports.postPetsController = (req, res) => {
 exports.getPetById = (req, res) => {
   const { id } = req.params
   const query = {
-    text: "SELECT * FROM pets WHERE id = $1",
+    text: "SELECT * FROM pets WHERE id = $1 RETURNING *",
     values: [id],
   }
   client
@@ -32,4 +32,21 @@ exports.getPetById = (req, res) => {
       })
     })
     .catch((err) => console.log(err.stack))
+}
+
+exports.getAllPets = (req, res) => {
+  const query = {
+    text: "SELECT * FROM admins RETURNING *",
+  }
+
+  client
+    .query(query)
+    .then((result) => {
+      res.json({
+        data: result.rows[0],
+      })
+    })
+    .catch((err) => {
+      console.log(err.stack)
+    })
 }

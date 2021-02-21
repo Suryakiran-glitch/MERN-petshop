@@ -32,14 +32,16 @@ exports.adminCheck = (req, res, next) => {
     })
   } else {
     const query = {
-      text: "SELECT * FROM admin where email = $1",
+      text: "SELECT * FROM admins where email = $1",
       values: [email],
     }
 
     client
       .query(query)
       .then((result) => {
-        req.body.email = result.rows[0].email
+        if (result.rows[0].is_admin === true) {
+          req.body.email = result.rows[0].email
+        }
       })
       .catch((err) => {
         console.log(err.stack)
