@@ -13,7 +13,7 @@ app.use(morgan("dev"))
 app.use(express.json())
 app.use("/api", authRoutes)
 app.use("/admin", adminAuthRoutes)
-app.use("/admin/pet", perRoutes)
+app.use(perRoutes)
 
 //Initializing servers
 const port = process.env.PORT || 5000

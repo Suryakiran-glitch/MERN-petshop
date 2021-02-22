@@ -2,7 +2,7 @@ const { generateToken } = require("../utils/token")
 const bcrypt = require("bcrypt")
 const client = require("../db")
 
-exports.registerAdmin = (req, res) => {
+exports.registerAdmin = async (req, res) => {
   const { name, email, password } = req.body
   const token = generateToken(email)
   const hash_password = bcrypt.hashSync(password, 10)

@@ -10,7 +10,7 @@ exports.tokenChecker = (req, res, next) => {
   var verify_token = jwt.verify(token, SECRETKEY)
 
   if (!verify_token) {
-    res.json({
+    return res.json({
       error: "Unauthorized route please login first",
     })
   }
@@ -27,18 +27,19 @@ exports.adminCheck = (req, res, next) => {
   const email = decoded.email
 
   if (!token) {
-    res.json({
+    return res.json({
       error: "Unauthorized token not available",
     })
   } else {
     const query = {
-      text: "SELECT * FROM admins where email = $1",
+      text: "SELECT * FROM admins WHERE email = $1",
       values: [email],
     }
 
     client
       .query(query)
       .then((result) => {
+        console.log(result.rows[0])
         if (result.rows[0].is_admin === true) {
           req.body.email = result.rows[0].email
         }
